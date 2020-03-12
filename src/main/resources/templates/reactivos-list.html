@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Lista de {{modulo}}</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+<body>
+<h1>Lista de {{modulo}}</h1>
+
+<div>
+    <nobr>
+        <a href="/reactivo/add">{{add}} {{modulo}}</a> |
+        <a href="/">Back to Index</a>
+    </nobr>
+</div>
+<br/><br/>
+<div>
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>Descripción</th>
+            <th>Tipo Reactivo</th>
+            <th>Edit</th>
+        </tr>
+        {{#reactivos}}
+        <tr>
+            <td><a href="/reactivo/{{idReactivo}}">{{idReactivo}}</a></td>
+            <td><a href="/reactivo/{{idReactivo}}">{{descripcion}}</a></td>
+            <td>{{tipoReactivo.nombre}}</td>
+            <td><a href="/reactivo/{{idReactivo}}/edit">Edit</a></td>
+        </tr>
+        {{/reactivos}}
+    </table>
+</div>
+<br/><br/>
+<div>
+    <nobr>
+        {{#hasPrev}}<a href="/reactivos?page={{prev}}">Prev</a>&nbsp;&nbsp;&nbsp;{{/hasPrev}}
+        {{#hasNext}}<a href="/reactivos?page={{next}}">Next</a>{{/hasNext}}
+    </nobr>
+</div>
+{{>footer}}
+</body>
+</html>

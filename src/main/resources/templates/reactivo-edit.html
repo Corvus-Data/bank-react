@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{{#add}}Crear nuevo {{modulo}} {{/add}}{{^add}}Editar {{modulo}}{{/add}}</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+<body>
+<h1>{{#add}}Crear nuevo {{modulo}}:{{/add}}{{^add}}Editar {{reactivo}}:{{/add}}</h1>
+<a href="/reactivos">Regresar</a>
+<br/><br/>
+<form action="{{#add}}/reactivo/add{{/add}}{{^add}}/reactivo/{{reactivo.idReactivo}}/edit{{/add}}" name="reactivo" method="POST">
+    <table border="0">
+        {{#reactivo.idReactivo}}
+        <tr>
+            <td>Id</td>
+            <td>:</td>
+            <td>{{reactivo.idReactivo}}</td>
+        </tr>
+        {{/reactivo.idReactivo}}
+        <tr>
+            <td>Reactivo</td>
+            <td>:</td>
+            <td>
+                <input type="text" name="descripcion" value="{{#reactivo.descripcion}}{{reactivo.descripcion}}{{/reactivo.descripcion}}" />
+            </td>
+        </tr>
+        <tr>
+            <td>Tipo Reactivo</td>
+            <td>:</td>
+            <td>
+
+                <select name="tipoReactivo">
+                    {{#tipoReactivos}}
+                    <option name="tipoReactivo.idTipoReactivo" value="{{idTipoReactivo}}">{{nombre}}</option>
+                    {{/tipoReactivos}}
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="{{#add}}Guardar{{/add}}{{^add}}Actualizar{{/add}}" />
+</form>
+
+<br/>
+<!-- Check if errorMessage is not null and not empty -->
+<div class="error">{{#errorMessage}}{{errorMessage}}{{/errorMessage}}</div>
+{{>footer}}
+</body>
+</html>

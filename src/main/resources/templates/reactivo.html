@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>User {{modulo}}</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+<body>
+<h1>View {{modulo}}</h1>
+<a href="/reactivos">Back to {{modulo}} List</a>
+<br/><br/>
+{{#reactivo}}
+<table border="0">
+    <tr>
+        <td>Id</td>
+        <td>:</td>
+        <td>{{reactivo.idReactivo}}</td>
+    </tr>
+    <tr>
+        <td>Descripción</td>
+        <td>:</td>
+        <td>{{reactivo.descripcion}}</td>
+    </tr>
+    <tr>
+        <td>Tipo Reactivo</td>
+        <td>:</td>
+        <td>{{reactivo.tipoReactivo.nombre}}</td>
+    </tr>
+</table>
+<br/><br/>
+{{#allowDelete}}
+<form action="/reactivo/{{reactivo.idReactivo}}/delete" method="POST">
+    Delete this user? <input type="submit" value="Yes" />
+</form>
+{{/allowDelete}}
+{{^allowDelete}}
+<div>
+    <a href="/reactivo/{{reactivo.idReactivo}}/edit">Edit</a> |
+    <a href="/reactivo/{{reactivo.idReactivo}}/delete">Delete</a>
+</div>
+{{/allowDelete}}
+{{/reactivo}}
+{{#errorMessage}}
+<div class="error">{{errorMessage}}</div>
+{{/errorMessage}}
+{{>footer}}
+</body>
+</html>
