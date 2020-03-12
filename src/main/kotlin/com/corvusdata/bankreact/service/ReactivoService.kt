@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @Service
-public class ReactivoService {
+class ReactivoService {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -22,12 +22,11 @@ public class ReactivoService {
     fun save(reactivo: Reactivo) = reactivoRepository.save(reactivo)
     fun existsById(id: Int) = reactivoRepository.existsById(id)
     fun findAll(): List<Reactivo> = reactivoRepository.findAll()
-    fun findById(id: Int): Reactivo = reactivoRepository.findById(id) as Reactivo
+    fun findById(id: Int) = reactivoRepository.findById(id)
     fun count(): Long = reactivoRepository.count()
 
     fun findAll(pageNumber: Int, rowPerPage: Int): List<Reactivo> {
-        val reactivos = ArrayList<Reactivo>();
-
+        val reactivos = ArrayList<Reactivo>()
         val sortedByLastUpdateDesc: Pageable = PageRequest.of(pageNumber - 1, rowPerPage,
                 Sort.by("idReactivo").ascending())
         reactivoRepository.findAll(sortedByLastUpdateDesc).forEach { reactivos.add(it) }

@@ -11,13 +11,14 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.ObjectUtils
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @Controller
 class ReactivoController {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    final val ROW_PER_PAGE = 5;
+    final val ROW_PER_PAGE = 5
 
     val modulo = "Reactivo"
 
@@ -43,11 +44,11 @@ class ReactivoController {
 
     @GetMapping("/reactivos")
     fun getReactivos(model: Model, @RequestParam("page", defaultValue = "1") pageNumber: Int ) : String {
-        var reactivosList = reactivoService.findAll(pageNumber, ROW_PER_PAGE)
+        val reactivosList = reactivoService.findAll(pageNumber, ROW_PER_PAGE)
 
-        var count = reactivoService.count()
-        var hasPrev = pageNumber > 1
-        var hasNext = (pageNumber * ROW_PER_PAGE) < count
+        val count = reactivoService.count()
+        val hasPrev = pageNumber > 1
+        val hasNext = (pageNumber * ROW_PER_PAGE) < count
         model.addAttribute("add", add)
         model.addAttribute("modulo", modulo)
         model.addAttribute("reactivos", reactivosList)
@@ -60,13 +61,11 @@ class ReactivoController {
 
     @GetMapping("/reactivo/{idReactivo}")
     fun getReactivoById(model: Model, @PathVariable idReactivo: Int) : String {
-        var reactivo : Reactivo
+        val reactivo : Reactivo
 
         try {
             model.addAttribute("modulo", modulo)
-            logger.debug(" idReactivo ---> {}", idReactivo)
-            reactivo = reactivoService.findById(idReactivo)
-            logger.debug("Mira lo que tenemos aqui {}", reactivo)
+            reactivo = reactivoService.findById(idReactivo).get()
             model.addAttribute("reactivo", reactivo)
         } catch (ex: Exception) {
             logger.error(ex.message)
@@ -93,7 +92,7 @@ class ReactivoController {
     fun addReactivo(model: Model, @ModelAttribute("reactivo") reactivo: Reactivo): String {
 
         try {
-            return "redirect:/reactivo/" + reactivoService.save(reactivo).idReactivo;
+            return "redirect:/reactivo/" + reactivoService.save(reactivo).idReactivo
         } catch (ex: Exception){
             logger.error(ex.message)
             model.addAttribute("modulo", modulo)
@@ -105,17 +104,18 @@ class ReactivoController {
 
     @GetMapping("/reactivo/{idReactivo}/edit")
     fun showEditReactivo(model: Model, @PathVariable idReactivo: Int) : String {
-        var reactivo : Reactivo?
+        val reactivo : Reactivo
+        val tipoReactivos = tipoReactivoService.findAll()
 
         try {
-            reactivo = reactivoService.findById(idReactivo)
+            reactivo = reactivoService.findById(idReactivo).get()
             model.addAttribute("reactivo", reactivo)
-
         } catch (ex: Exception) {
             model.addAttribute("errorMessage", ex.message)
         }
 
         model.addAttribute("modulo", modulo)
+        model.addAttribute("tipoReactivos", tipoReactivos)
         model.addAttribute("add", false)
 
         return "reactivo-edit"
@@ -123,7 +123,6 @@ class ReactivoController {
 
     @PostMapping("/reactivo/{idReactivo}/edit")
     fun updateReactivo(model: Model, @PathVariable idReactivo: Int, @ModelAttribute("reactivo") reactivo: Reactivo) : String {
-
         return "reactivo-edit"
     }
 }
