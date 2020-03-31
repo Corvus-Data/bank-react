@@ -23,11 +23,12 @@ class Reactivo(
         @GeneratedValue(strategy = GenerationType.AUTO)
         @Column(name = "id_reactivo")
         var idReactivo: Int?,
+        var reactivo: String?,
         var descripcion: String?,
         @ManyToOne
         var tipoReactivo: TipoReactivo?
 ) {
-        constructor() : this(null, null, null)
+        constructor() : this(null, null, null, null)
 }
 
 @Entity

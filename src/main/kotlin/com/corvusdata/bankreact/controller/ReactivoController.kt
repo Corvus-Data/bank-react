@@ -34,18 +34,10 @@ class ReactivoController {
     @Value("\${msg.add}")
     lateinit var add: String
 
-
-
-    @GetMapping("/", "/index")
-    fun index(model:Model): String {
-        model.addAttribute("title", title)
-        return "index"
-    }
-
-    @GetMapping("/reactivos")
+    @GetMapping("/gui/reactivos")
     fun getReactivos(model: Model, @RequestParam("page", defaultValue = "1") pageNumber: Int ) : String {
         val reactivosList = reactivoService.findAll(pageNumber, ROW_PER_PAGE)
-
+        logger.debug("Recibo el parametro de el Numero de pagina")
         val count = reactivoService.count()
         val hasPrev = pageNumber > 1
         val hasNext = (pageNumber * ROW_PER_PAGE) < count
@@ -59,7 +51,7 @@ class ReactivoController {
         return "reactivos-list"
     }
 
-    @GetMapping("/reactivo/{idReactivo}")
+    @GetMapping("/gui/reactivo/{idReactivo}")
     fun getReactivoById(model: Model, @PathVariable idReactivo: Int) : String {
         val reactivo : Reactivo
 
@@ -75,7 +67,7 @@ class ReactivoController {
         return "reactivo"
     }
 
-    @GetMapping("/reactivo/add")
+    @GetMapping("/gui/reactivo/add")
     fun showAddReactivo(model: Model) : String {
         val reactivo = Reactivo()
         val tipoReactivos = tipoReactivoService.findAll()
@@ -88,7 +80,7 @@ class ReactivoController {
         return "reactivo-edit"
     }
 
-    @PostMapping("/reactivo/add")
+    @PostMapping("/gui/reactivo/add")
     fun addReactivo(model: Model, @ModelAttribute("reactivo") reactivo: Reactivo): String {
 
         try {
@@ -102,7 +94,7 @@ class ReactivoController {
         }
     }
 
-    @GetMapping("/reactivo/{idReactivo}/edit")
+    @GetMapping("/gui/reactivo/{idReactivo}/edit")
     fun showEditReactivo(model: Model, @PathVariable idReactivo: Int) : String {
         val reactivo : Reactivo
         val tipoReactivos = tipoReactivoService.findAll()
@@ -121,7 +113,7 @@ class ReactivoController {
         return "reactivo-edit"
     }
 
-    @PostMapping("/reactivo/{idReactivo}/edit")
+    @PostMapping("/gui/reactivo/{idReactivo}/edit")
     fun updateReactivo(model: Model, @PathVariable idReactivo: Int, @ModelAttribute("reactivo") reactivo: Reactivo) : String {
         return "reactivo-edit"
     }
